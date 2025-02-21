@@ -20,9 +20,11 @@
     "expo-status-bar": "~2.0.1",
     "install": "^0.13.0",
     "react": "18.3.1",
+    "react-icons": "^5.5.0",
     "react-native": "0.76.7",
     "react-native-gesture-handler": "^2.24.0",
-    "react-native-reanimated": "^3.16.7"
+    "react-native-reanimated": "^3.16.7",
+    "react-vector-icons": "^0.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons } from '@expo/vector-icons'; // Importe les icônes Ionicons
 
 export default function HomeScreen({ navigation }) {
   console.log(navigation);
