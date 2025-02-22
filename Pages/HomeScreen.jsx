@@ -13,6 +13,12 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
+import moment from "moment"; //  Importation de moment.js pour gérer les dates
+import SplashScreen from 'react-native-splash-screen';
+import { Ionicons } from '@expo/vector-icons'; // Importe les icônes Ionicons
+
+
+
 
 export default function HomeScreen({ navigation }) {
   console.log(navigation);
@@ -46,13 +52,14 @@ export default function HomeScreen({ navigation }) {
     userLocation();
   }, []);
 
+  const [selectedPeriod, setSelectedPeriod] = useState('jour');//  Ajout d'un état pour la période sélectionnée
 
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       loadNotes();
     });
-
+  
     return unsubscribe;
   }, [navigation]);
 
@@ -67,6 +74,23 @@ export default function HomeScreen({ navigation }) {
     }
   };
 
+//  Fonction pour vérifier si une note appartient à la période sélectionnée
+const isWithinPeriod = (dateString) => {
+  const noteDate = moment(dateString, "YYYY-MM-DD"); //  Conversion de la date en objet moment.js
+  const today = moment(); //  Date actuelle
+
+  switch (selectedPeriod) {
+    case "jour":
+      return noteDate.isSame(today, "day"); //  Compare avec la date du jour
+    case "semaine":
+      return noteDate.isSame(today, "week"); //  Compare avec la semaine actuelle
+    case "mois":
+      return noteDate.isSame(today, "month"); // Compare avec le mois actuel
+    default:
+      return true; //  Si aucune période n'est sélectionnée, on affiche tout
+  }
+};
+
   const filteredNotes = notes.filter((note) => {
     const matchesFilter =
       filter === "all" ||
@@ -79,21 +103,32 @@ export default function HomeScreen({ navigation }) {
       note.title.toLowerCase().includes(searchText.toLowerCase()) ||
       note.description.toLowerCase().includes(searchText.toLowerCase());
 
-    return matchesFilter && matchesSearch;
+
+      const matchesPeriod = isWithinPeriod(note.date); //  Ajout du filtre de période
+
+
+    return matchesFilter && matchesSearch && matchesPeriod;
   });
 
-  const FilterButton = ({ title, value }) => (
+  
+
+{/*Fonction pour créer un bouton de filtre générique (catégorie ou période)*/}
+const FilterButton = ({ title, value, isPeriod = false }) => (
     <TouchableOpacity
       style={[
         styles.filterButton,
-        filter === value && styles.filterButtonActive,
+        isPeriod
+          ? selectedPeriod === value && styles.filterButtonActive // Sélection visuelle pour la période
+          : filter === value && styles.filterButtonActive, //Sélection visuelle pour les catégories
       ]}
-      onPress={() => setFilter(value)}
+      onPress={() => (isPeriod ? setSelectedPeriod(value) : setFilter(value))} // 🔄 Met à jour l'état selon si c'est un filtre de période ou de catégorie
     >
-      <Text
+  <Text
         style={[
           styles.filterButtonText,
-          filter === value && styles.filterButtonTextActive,
+          isPeriod
+            ? selectedPeriod === value && styles.filterButtonTextActive
+            : filter === value && styles.filterButtonTextActive,
         ]}
       >
         {title}
@@ -153,6 +188,9 @@ export default function HomeScreen({ navigation }) {
         <FilterButton title="Tâches" value="tasks" />
         <FilterButton title="Terminé" value="completed" />
         <FilterButton title="En cours" value="pending" />
+        <FilterButton title="Jour" value="jour" isPeriod />
+        <FilterButton title="Semaine" value="semaine" isPeriod />
+        <FilterButton title="Mois" value="mois" isPeriod />
       </ScrollView>
     
       <View style={styles.container}>
