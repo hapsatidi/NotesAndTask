@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment"; //  Importation de moment.js pour gérer les dates
+import SplashScreen from 'react-native-splash-screen';
+import { Ionicons } from '@expo/vector-icons'; // Importe les icônes Ionicons
 
 
 
@@ -24,7 +26,7 @@ export default function HomeScreen({ navigation }) {
     const unsubscribe = navigation.addListener("focus", () => {
       loadNotes();
     });
-
+  
     return unsubscribe;
   }, [navigation]);
 

@@ -6,9 +6,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from './Pages/HomeScreen';
 import AddNoteScreen from './Pages/AddNoteScreen';
 import NoteDetailScreen from'./Pages/NotesDetailScreen';
-
+import SplashScreen from 'react-native-splash-screen';
+import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
+     /* Utilise l'icône de Ionicons */
+     <Ionicons name="icon.png" size={30} color="blue" />
 
 
 
@@ -45,6 +48,7 @@ export default function App() {
         />
       </Stack.Navigator>
     </NavigationContainer>
+
  );
 
 }
