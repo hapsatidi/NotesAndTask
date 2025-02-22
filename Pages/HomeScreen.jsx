@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import SplashScreen from 'react-native-splash-screen';
 
 export default function HomeScreen({ navigation }) {
   console.log(navigation);
