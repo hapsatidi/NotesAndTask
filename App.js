@@ -6,12 +6,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from './Pages/HomeScreen';
 import AddNoteScreen from './Pages/AddNoteScreen';
 import NoteDetailScreen from'./Pages/NotesDetailScreen';
-
-
-const Stack = createStackNavigator();
-
-
-
+import SplashScreen from 'react-native-splash-screen';
+const Stack = createStackNavigator();   
 
 export default function App() {
   return (

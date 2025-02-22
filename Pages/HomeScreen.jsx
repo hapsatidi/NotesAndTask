@@ -20,7 +20,7 @@ export default function HomeScreen({ navigation }) {
     const unsubscribe = navigation.addListener("focus", () => {
       loadNotes();
     });
-
+  
     return unsubscribe;
   }, [navigation]);
 
